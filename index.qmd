@@ -258,7 +258,9 @@ soma
 
 #### Aula 3 – Pacotes
 
-```{r warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 
 # Carregando pacotes
 library(tidyverse)
