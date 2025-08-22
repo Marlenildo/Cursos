@@ -219,8 +219,6 @@ Cada aluno analisa um banco de dados de experimentação agrícola.
 ## <i class="fas fa-code"></i> Exemplos de Códigos
 
  
-
-
 ### 🔹 Módulo 1 – Introdução ao R e Organização de Dados
 
 #### Aula 1 – Instalação e primeiros passos
@@ -462,8 +460,11 @@ Engenheiro Agrônomo, Doutor em Fitotecnia
 ---
 
 **Links Úteis**:
-- [Apresentação do Curso](#apresentação-do-curso)
-- [Conteúdo do Curso (Estrutura e Códigos)](#conteúdo-do-curso)
-- [Quem Sou](#quem-sou)
+
+- [Estrutura do Curso](#estrutura-do-curso)
+- [Exemplos de Códigos](#exemplos-de-códigos)
 
 
+<i class="fa-brands fa-r-project"></i>  *Este documento foi criado utilizando a própria linguagem R.*
+
+---
