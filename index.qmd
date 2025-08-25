@@ -20,14 +20,10 @@ format:
 
 # Apresentação do Curso {.tabset}
 
-Este material serve como guia para o curso **Estatística com R para Experimentação Agrícola**.  
-Cada aula contém **explicações teóricas resumidas** e **códigos práticos** para serem executados no RStudio. 
+Este material serve como guia para o curso **Estatística com R para Experimentação Agrícola**.\
+Cada aula contém **explicações teóricas resumidas** e **códigos práticos** para serem executados no RStudio.
 
-
-
-
-
-## <i class="fa-brands fa-r-project"></i> Estrutura do Curso
+## <i class="fa-brands fa-r-project"></i> Estrutura do Curso {#estrutura-do-curso}
 
 ### Módulo 1 – Introdução ao R e Organização de Dados (Semanas 1-2)
 
@@ -207,28 +203,22 @@ Cada aluno analisa um banco de dados de experimentação agrícola.
 -   **Semanas 9-11**: Regressão (linear, polinomial, não linear, logística)\
 -   **Semana 12**: Relatórios e Projeto Final
 
+------------------------------------------------------------------------
 
+<br> <br>
 
+## <i class="fas fa-code"></i> Exemplos de Códigos {#exemplos-de-códigos}
 
----
-
-<br>
-<br>
-
-
-## <i class="fas fa-code"></i> Exemplos de Códigos
-
- 
 ### 🔹 Módulo 1 – Introdução ao R e Organização de Dados
 
 #### Aula 1 – Instalação e primeiros passos
 
-- Instale o R e o RStudio em seu computador.  
-- Conheça os principais painéis do RStudio:  
-  - *Console* (execução de comandos)  
-  - *Source* (script)  
-  - *Environment/History* (objetos)  
-  - *Plots/Packages/Help*  
+-   Instale o R e o RStudio em seu computador.\
+-   Conheça os principais painéis do RStudio:
+    -   *Console* (execução de comandos)\
+    -   *Source* (script)\
+    -   *Environment/History* (objetos)\
+    -   *Plots/Packages/Help*
 
 ```{r}
 # Verificando versão do R
@@ -236,11 +226,11 @@ version
 
 # Operações simples
 2 + 2
-10/3
+10 / 3
 sqrt(25)
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 2 – Objetos no R
 
@@ -252,7 +242,7 @@ soma <- x + y
 soma
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 3 – Pacotes
 
@@ -268,7 +258,7 @@ library(easyanova)
 library(rstatix)
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 4 – Importação de Dados
 
@@ -284,7 +274,7 @@ library(rstatix)
 # summary(dados_csv)
 ```
 
----
+------------------------------------------------------------------------
 
 ### 🔹 Módulo 2 – Manipulação e Exploração de Dados
 
@@ -293,38 +283,39 @@ library(rstatix)
 ```{r}
 # Exemplo fictício
 dados <- data.frame(
-  tratamento = rep(c("T1","T2","T3"), each=4),
+  tratamento = rep(c("T1", "T2", "T3"), each = 4),
   repeticao = rep(1:4, 3),
-  produtividade = c(30,32,28,31, 35,36,34,37, 25,27,26,28)
+  produtividade = c(30, 32, 28, 31, 35, 36, 34, 37, 25, 27, 26, 28)
 )
 
 # Selecionar colunas e filtrar
 dados %>% select(tratamento, produtividade) %>% filter(produtividade > 30)
 
 # Resumo estatístico
-dados %>% group_by(tratamento) %>% summarise(
-  media = mean(produtividade),
-  sd = sd(produtividade)
-)
+dados %>%
+  group_by(tratamento) %>%
+  summarise(
+    media = mean(produtividade),
+    sd = sd(produtividade)
+  )
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 6 – Estatística Descritiva e Gráficos
 
 ```{r}
 # Histograma
 ggplot(dados, aes(x = produtividade)) +
-  geom_histogram(binwidth = 2, fill="skyblue", color="black")
+  geom_histogram(binwidth = 2, fill = "skyblue", color = "black")
 
 # Boxplot
 ggplot(dados, aes(x = tratamento, y = produtividade)) +
-  geom_boxplot(fill="orange")
+  geom_boxplot(fill = "orange")
 
 ```
 
-
----
+------------------------------------------------------------------------
 
 ### 🔹 Módulo 3 – Análise de Variância (ANOVA)
 
@@ -336,13 +327,18 @@ modelo <- aov(produtividade ~ tratamento, data = dados)
 summary(modelo)
 
 # ANOVA usando ExpDes.pt
-dic(trat = dados$tratamento, resp = dados$produtividade, quali = TRUE, mcomp = "tukey")
+dic(
+  trat = dados$tratamento,
+  resp = dados$produtividade,
+  quali = TRUE,
+  mcomp = "tukey"
+)
 
 # ANOVA usando easyanova
-easyanova::ea1(dados[-2],design = 1,plot = 2)
+easyanova::ea1(dados[-2], design = 1, plot = 2)
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 11 – Testes de Pressupostos
 
@@ -356,7 +352,7 @@ bartlett.test(produtividade ~ tratamento, data = dados)
 rstatix::levene_test(produtividade ~ tratamento, data = dados)
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 12 – Comparações de Médias
 
@@ -373,74 +369,168 @@ dados %>% anova_test(produtividade ~ tratamento)
 dados %>% tukey_hsd(produtividade ~ tratamento)
 ```
 
----
+------------------------------------------------------------------------
 
 #### Aula 13 – ANOVA Fatorial
 
 ```{r}
 # Exemplo com dois fatores
 dados2 <- expand.grid(
-  adubacao = c("A1","A2"),
-  cultivar = c("C1","C2","C3"),
+  adubacao = c("A1", "A2"),
+  cultivar = c("C1", "C2", "C3"),
   rep = 1:4
 )
 set.seed(123)
-dados2$produtividade <- rnorm(24, mean=30, sd=3)
+dados2$produtividade <- rnorm(24, mean = 30, sd = 3)
 
 # ANOVA
 modelo2 <- aov(produtividade ~ adubacao * cultivar, data = dados2)
 summary(modelo2)
 
 # ExpDes.pt
-fat2.dic(fator1 = dados2$adubacao, fator2 = dados2$cultivar, resp = dados2$produtividade, quali = c(TRUE,TRUE), mcomp = "tukey")
+fat2.dic(
+  fator1 = dados2$adubacao,
+  fator2 = dados2$cultivar,
+  resp = dados2$produtividade,
+  quali = c(TRUE, TRUE),
+  mcomp = "tukey"
+)
 ```
 
----
+------------------------------------------------------------------------
 
 ### 🔹 Módulo 4 – Regressão
 
 #### Aula 17 – Regressão Linear
 
 ```{r}
-# Exemplo: dose x produtividade
-dose <- c(0,50,100,150,200)
+dose <- c(0, 50, 100, 150, 200)
 prod <- c(20, 28, 35, 40, 38)
 dados_reg <- data.frame(dose, prod)
 
 modelo_reg <- lm(prod ~ dose, data = dados_reg)
-summary(modelo_reg)
+a <- summary(modelo_reg)
+
+# Coeficientes
+coeficientes <- coef(modelo_reg)
+intercepto <- round(coeficientes[1], 2) # sem sinal extra
+slope <- formatC(coeficientes[2], format = "f", digits = 2, flag = "+") # sempre com sinal
+
+# Estatísticas do modelo
+r2 <- round(a$r.squared, 4)
+f_value <- a$fstatistic[1]
+df1 <- a$fstatistic[2]
+df2 <- a$fstatistic[3]
+p_value_anova <- pf(f_value, df1, df2, lower.tail = FALSE)
+
+
+
+
+# Equação no formato correto
+equacao <- paste0("y = ", intercepto, slope, "x")
+
+legenda <- paste0(
+  equacao,
+  "  R² = ", r2,
+  "\nF = ", f_value,
+  "; p = ", format.pval(p_value_anova, digits = 4, eps = 0.001)
+)
+
+
+
+dados_reg |>
+  ggplot(aes(x = dose, y = prod)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  annotate("text",
+           x = 100, y = 10,
+           label = legenda,
+           hjust = 0, size = 5) +
+  labs(x = "Frequência de irrigação", y = "CRA (%)") +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  ylim(0, 50)
+
+```
+------------------------------------------------------------------------
+
+
+#### Aula 17 – Regressão Quadrática
+
+
+```{r}
+# Ajustar modelo de regressão quadrática
+modelo_quad <- lm(prod ~ dose + I(dose^2), data = dados_reg)
+a <- summary(modelo_quad)
+a
+# Coeficientes da regressão quadrática (com mais casas decimais)
+coef_quad <- coef(modelo_quad)
+intercepto <- formatC(coef_quad[1], format = "f", digits = 4)
+linear     <- formatC(coef_quad[2], format = "f", digits = 4, flag = "+")
+quadratico <- formatC(coef_quad[3], format = "f", digits = 4, flag = "+") 
+# usei 6 casas para o termo quadrático porque geralmente é bem pequeno
+
+# Estatísticas do modelo
+r2 <- round(a$r.squared, 4)
+f_value <- a$fstatistic[1]
+df1 <- a$fstatistic[2]
+df2 <- a$fstatistic[3]
+p_value_anova <- pf(f_value, df1, df2, lower.tail = FALSE)
+
+# Equação para legenda
+equacao <- paste0("y = ", intercepto, " ", linear, "x ", quadratico, "x²")
+legenda <- paste0(
+  equacao,
+  "  R² = ", r2,
+  "\nF = ", round(f_value, 2),
+  "; p = ", format.pval(p_value_anova, digits = 4, eps = 0.001)
+)
 
 # Gráfico
-ggplot(dados_reg, aes(x=dose, y=prod)) +
-  geom_point() +
-  geom_smooth(method="lm", se=FALSE, color="red")
+library(ggplot2)
+
+regressao_quad <- ggplot(dados_reg, aes(x = dose, y = prod)) +
+  geom_point(size = 3) +
+  stat_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = FALSE,
+    color = "black"
+  ) +
+  annotate("text", x = 50, y = 10, label = legenda, hjust = 0, size = 5) +
+  labs(x = "Dose", y = "Produção") +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  ylim(0, 50)
+
+# Exibir gráfico
+regressao_quad
+
 ```
 
 
----
 
 ### 🔹 Módulo 5 – Relatórios e Projeto Final
 
 #### Aula 23 – Relatórios com RMarkdown
 
-- Este próprio arquivo é um exemplo.  
-- Pode ser exportado em HTML, Word ou PDF.  
+-   Este próprio arquivo é um exemplo.\
+-   Pode ser exportado em HTML, Word ou PDF.
 
----
+------------------------------------------------------------------------
 
 ### ✅ Projeto Final
 
-Analise um conjunto de dados agrícolas (real ou fornecido):  
-- Estruture os dados no Excel/CSV.  
-- Importe para o R.  
-- Realize ANOVA (com `aov()`, `ExpDes.pt`, `easyanova` e `rstatix`).  
-- Teste pressupostos.  
-- Se necessário, ajuste modelos de regressão.  
-- Gere gráficos com `ggplot2`.  
+Analise um conjunto de dados agrícolas (real ou fornecido):\
+- Estruture os dados no Excel/CSV.\
+- Importe para o R.\
+- Realize ANOVA (com `aov()`, `ExpDes.pt`, `easyanova` e `rstatix`).\
+- Teste pressupostos.\
+- Se necessário, ajuste modelos de regressão.\
+- Gere gráficos com `ggplot2`.\
 - Organize os resultados em relatório RMarkdown.
 
----
-
+------------------------------------------------------------------------
 
 <br>
 
@@ -450,21 +540,19 @@ Engenheiro Agrônomo, Doutor em Fitotecnia
 
 <i class="fa-solid fa-link"></i> [Linktree](https://linktr.ee/marlenildomelo)
 
-<i class="fas fa-envelope"></i> [marlenildo@gmail.com](mailto:marlenildo@gmail.com)
+<i class="fas fa-envelope"></i> [marlenildo\@gmail.com](mailto:marlenildo@gmail.com)
 
 <i class="fab fa-whatsapp"></i> [(84) 98752-1095](https://wa.me/5584987521095)
 
-
 <br>
 
----
+------------------------------------------------------------------------
 
 **Links Úteis**:
 
-- [Estrutura do Curso](#estrutura-do-curso)
-- [Exemplos de Códigos](#exemplos-de-códigos)
+-   [Estrutura do Curso](#estrutura-do-curso)
+-   [Exemplos de Códigos](#exemplos-de-códigos)
 
+<i class="fa-brands fa-r-project"></i> *Este documento foi criado utilizando a própria linguagem R.*
 
-<i class="fa-brands fa-r-project"></i>  *Este documento foi criado utilizando a própria linguagem R.*
-
----
+------------------------------------------------------------------------
